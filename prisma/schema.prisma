@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE")
+}
+
+model Organization {
+  id           String          @id @default(uuid())
+  name         String
+  slug         String          @unique
+  mail         String          @unique
+  contact      String          @unique
+  status       OrganizationStatus @default(ACTIVE)
+  avatarUrl  String?
+  // Relations
+  basicDetails BasicDetails?
+  users        User[]
+
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+model BasicDetails {
+  id                     String         @id @default(uuid())
+  organizationId         String         @unique
+  organization           Organization   @relation(fields: [organizationId], references: [id])
+
+  primaryAdminName       String
+  supportEmail           String?
+  alternativePhoneNumber String?
+  maxActiveCoordinators  Int            @default(5)
+  websiteUrl             String?
+  languagePreference     String         @default("English")
+  timeCommonName         String         @default("India Standard Time")
+  region                 String         @default("Asia/Colombo")
+
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+}
+
+model User {
+  id              String         @id @default(uuid())
+  organizationId  String
+  organization    Organization   @relation(fields: [organizationId], references: [id])
+
+  name            String
+  role            UserRole       @default(MEMBER)
+
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+enum OrganizationStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum UserRole {
+  ADMIN
+  MEMBER
+  COORDINATOR
+}
