@@ -8,7 +8,7 @@ export default function Navbar() {
 
       <div className="flex gap-4 ">
         <Image src={'/Navbar/support.svg'} alt="Search" width={24} height={24} />
-        <Image src={'/Navbar/Vector.svg'} alt="Notification" width={24} height={24} />
+        <Image src={'/Navbar/Vector.svg'} alt="Notification" width={16} height={16} />
         <Image src={'/Navbar/user.svg'} alt="Settings" width={24} height={24} />
       </div>
     </div>
