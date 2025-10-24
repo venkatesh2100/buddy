@@ -29,7 +29,7 @@ export default function B2BOrganizations() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleClick = async () => {
-    console.log("Form Data Submitted: ", formData);
+    // console.log("Form Data Submitted: ", formData);
     const newOrg = await fetch("/api/organization", {
       method: "POST",
       headers: {
@@ -38,7 +38,7 @@ export default function B2BOrganizations() {
       body: JSON.stringify(formData),
     });
     const data = await newOrg.json();
-    console.log("Response from server: ", data);
+    // console.log("Response from server: ", data);
     setShowModal(false);
     // Refresh organization list
     window.location.reload();

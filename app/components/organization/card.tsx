@@ -3,7 +3,6 @@ type Organization = {
   id: number;
   name: string;
   slug: string;
-  pendingRequests: number;
   status: "ACTIVE" | "INACTIVE" | "SUSPENDED";
   avatarUrl: string;
   mail: string;
@@ -56,7 +55,7 @@ export default function OrganizationCard({ org }: OrganizationProps) {
         <div className="flex flex-col ml-6 pt-4 gap-4">
           <div className="text-xl font-semibold">{org.name}</div>
           <div className="text-sm flex flex-col gap-4 text-gray-600 text-center ">
-            <a className="flex ">
+            <div className="flex ">
               <Image
                 src={"/mail.svg"}
                 alt="Search"
@@ -65,8 +64,8 @@ export default function OrganizationCard({ org }: OrganizationProps) {
                 className="mr-1"
               />
               <a>{org.mail}</a>
-            </a>
-            <a className="flex ">
+            </div>
+            <div className="flex ">
               <Image
                 src={"/phone.svg"}
                 alt="Search"
@@ -75,8 +74,8 @@ export default function OrganizationCard({ org }: OrganizationProps) {
                 height={20}
               />
               <a>{org.contact}</a>
-            </a>
-            <a className="flex ">
+            </div>
+            <div className="flex ">
               <Image
                 src={"/world.svg"}
                 alt="Search"
@@ -85,7 +84,7 @@ export default function OrganizationCard({ org }: OrganizationProps) {
                 height={20}
               />
               <a>{org.website}</a>
-            </a>
+            </div>
           </div>
         </div>
       </div>

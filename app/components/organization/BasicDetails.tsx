@@ -1,20 +1,23 @@
 "use client";
 import { useState } from "react";
 
-interface Organization {
+type Organization = {
   id: number;
   name: string;
   slug: string;
-  pendingRequests: number;
   status: "ACTIVE" | "INACTIVE" | "SUSPENDED";
   avatarUrl: string;
   mail: string;
   contact: string;
-  website?: string;
-  primaryAdmin?: string;
-  alterNativePhoneNumber?: string;
-  supportEmail?: string;
-}
+  primaryAdmin?: string | null;
+  website?: string | null;
+  supportEmail?: string | null;
+  alterNativePhoneNumber?: string | null;
+  languagePreference?: string | null;
+  timeCommonName?: string | null;
+  region?: string | null;
+  maxActiveCoordinators?: number;
+};
 
 interface OrganizationProps {
   org: Organization;
@@ -24,25 +27,23 @@ export default function BasicDetails({ org }: OrganizationProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(org);
   const [isSaving, setIsSaving] = useState(false);
-
-  const handleChange = (
-    field: keyof Organization,
-    value: string
-  ) => {
+  // console.log("Organization data:", org);
+  const handleChange = (field: keyof Organization, value: string | number) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSave = async () => {
     setIsSaving(true);
     try {
-
       const res = await fetch(`/api/organization/${org.slug}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      console.log("Updated data:", formData);
+
       if (!res.ok) throw new Error("Failed to update organization");
+
+      window.location.reload();
       setIsEditing(false);
     } catch (err) {
       console.error(err);
@@ -78,16 +79,14 @@ export default function BasicDetails({ org }: OrganizationProps) {
               d={
                 isEditing
                   ? "M5 13l4 4L19 7"
-                  : "M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.313l-4.5 1.5 1.5-4.5 12.362-12.826z" // ✏️ Edit icon
+                  : "M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.313l-4.5 1.5 1.5-4.5 12.362-12.826z"
               }
             />
           </svg>
-          {isEditing ? (
+          {isEditing && (
             <span className="text-sm text-green-600">
               {isSaving ? "..." : ""}
             </span>
-          ) : (
-            <span className="text-sm text-purple-500"></span>
           )}
         </button>
       </div>
@@ -105,7 +104,6 @@ export default function BasicDetails({ org }: OrganizationProps) {
             label="Organization SLUG"
             value={formData.slug}
             onChange={(v) => handleChange("slug", v)}
-            editable={isEditing}
           />
         </TwoColumnGrid>
       </Section>
@@ -147,7 +145,19 @@ export default function BasicDetails({ org }: OrganizationProps) {
       <Section title="Maximum Allowed Coordinators">
         <Dropdown
           label="Max active Coordinators allowed"
-          value="Upto 5 Coordinators"
+          value={`Upto ${formData.maxActiveCoordinators || 5} Coordinators`}
+          options={[
+            "Upto 2 Coordinators",
+            "Upto 3 Coordinators",
+            "Upto 4 Coordinators",
+            "Upto 5 Coordinators",
+          ]}
+          onChange={(v) => {
+            setFormData((prev) => ({
+              ...prev,
+              maxActiveCoordinators: parseInt(v.match(/\d+/)?.[0] || "5", 10),
+            }));
+          }}
           editable={isEditing}
         />
       </Section>
@@ -157,12 +167,27 @@ export default function BasicDetails({ org }: OrganizationProps) {
         <TwoColumnGrid>
           <Dropdown
             label="Common name"
-            value="India Standard Time"
+            value={formData.timeCommonName || "India Standard Time"}
+            options={[
+              "India Standard Time",
+              "Eastern Standard Time (EST)",
+              "Pacific Standard Time (PST)",
+              "Central European Time (CET)",
+            ]}
+            onChange={(v) => handleChange("timeCommonName", v)}
             editable={isEditing}
           />
           <Dropdown
             label="Region"
-            value="Asia/Colombo"
+            value={formData.region || "Asia/Kolkata"}
+            options={[
+              "Asia/Kolkata",
+              "America/New_York",
+              "Europe/Berlin",
+              "Asia/Tokyo",
+              "Asia/Colombo",
+            ]}
+            onChange={(v) => handleChange("region", v)}
             editable={isEditing}
           />
         </TwoColumnGrid>
@@ -172,7 +197,9 @@ export default function BasicDetails({ org }: OrganizationProps) {
       <Section title="Language">
         <Dropdown
           label="Choose the language for organization"
-          value="English"
+          value={formData.languagePreference || "English"}
+          options={["English", "Spanish", "German", "Hindi", "French"]}
+          onChange={(v) => handleChange("languagePreference", v)}
           editable={isEditing}
         />
       </Section>
@@ -190,9 +217,7 @@ export default function BasicDetails({ org }: OrganizationProps) {
   );
 }
 
-/* ─────────────────────────────
-   REUSABLE COMPONENTS
-────────────────────────────── */
+// Reusable components
 
 function Section({
   title,
@@ -241,11 +266,15 @@ function Field({
 function Dropdown({
   label,
   value,
+  options,
   editable,
+  onChange,
 }: {
   label: string;
   value: string;
+  options: string[];
   editable?: boolean;
+  onChange?: (v: string) => void;
 }) {
   return (
     <div className="flex flex-col gap-1 relative">
@@ -254,13 +283,18 @@ function Dropdown({
         <select
           disabled={!editable}
           value={value}
+          onChange={(e) => onChange && onChange(e.target.value)}
           className={`border rounded-md px-3 py-2 text-gray-700 text-sm w-full focus:outline-none appearance-none ${
             editable
               ? "bg-white border-gray-300"
               : "bg-gray-50 border-gray-200 cursor-not-allowed"
           }`}
         >
-          <option>{value}</option>
+          {options.map((opt, idx) => (
+            <option key={idx} value={opt}>
+              {opt}
+            </option>
+          ))}
         </select>
         <img
           src="/down.svg"
@@ -291,35 +325,33 @@ function PhoneGroup({
 }) {
   return (
     <div className="grid grid-cols-2 gap-4 col-span-2">
-      {[{ label: label1, value: value1, onChange: onChange1 },
-        { label: label2, value: value2, onChange: onChange2 }].map(
-        (f, idx) => (
-          <div key={idx} className="flex flex-col gap-1">
-            <label className="text-sm text-gray-500">{f.label}</label>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value="+91"
-                disabled
-                className="w-16 bg-gray-50 border border-gray-200 rounded-md px-2 py-2 text-gray-700 text-sm focus:outline-none"
-              />
-              <input
-                type="text"
-                value={f.value}
-                disabled={!editable}
-                onChange={(e) =>
-                  f.onChange && f.onChange(e.target.value)
-                }
-                className={`flex-1 border rounded-md px-3 py-2 text-gray-700 text-sm focus:outline-none ${
-                  editable
-                    ? "bg-white border-gray-300"
-                    : "bg-gray-50 border-gray-200 cursor-not-allowed"
-                }`}
-              />
-            </div>
+      {[
+        { label: label1, value: value1, onChange: onChange1 },
+        { label: label2, value: value2, onChange: onChange2 },
+      ].map((f, idx) => (
+        <div key={idx} className="flex flex-col gap-1">
+          <label className="text-sm text-gray-500">{f.label}</label>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value="+91"
+              disabled
+              className="w-16 bg-gray-50 border border-gray-200 rounded-md px-2 py-2 text-gray-700 text-sm focus:outline-none"
+            />
+            <input
+              type="text"
+              value={f.value}
+              disabled={!editable}
+              onChange={(e) => f.onChange && f.onChange(e.target.value)}
+              className={`flex-1 border rounded-md px-3 py-2 text-gray-700 text-sm focus:outline-none ${
+                editable
+                  ? "bg-white border-gray-300"
+                  : "bg-gray-50 border-gray-200 cursor-not-allowed"
+              }`}
+            />
           </div>
-        )
-      )}
+        </div>
+      ))}
     </div>
   );
 }

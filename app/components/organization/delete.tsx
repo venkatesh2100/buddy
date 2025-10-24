@@ -18,7 +18,7 @@ export default function DeleteButtonOrg({ Organization ,refreshOrgs}: Organizati
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
-    console.log('Deleting organization:', Organization);
+    // console.log('Deleting organization:', Organization);
     if (!confirm(`Delete organization "${Organization.name}"?`)) return;
 
     try {

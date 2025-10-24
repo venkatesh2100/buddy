@@ -8,7 +8,7 @@ export async function GET() {
       },
     });
 
-    console.log(organizations);
+    // console.log(organizations);
     return NextResponse.json({
       data: organizations,
     });
