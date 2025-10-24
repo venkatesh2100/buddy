@@ -132,7 +132,7 @@ export default function B2BOrganizations() {
                   className="w-6 h-6 rounded"
                 />
                 <Link
-                  href={`/B2B/${org.slug}`}
+                  href={`/organization/${org.slug}`}
                   className="text-gray-900 hover:underline"
                 >
                   {org.name}
@@ -162,7 +162,7 @@ export default function B2BOrganizations() {
 
               {/* Action icons */}
               <td className="py-2 px-4 border-b-gray-50 flex items-center gap-4">
-                <Link href={`/orgnization/${org.slug}`}>
+                <Link href={`/organization/${org.slug}`}>
                   <Image
                     src={"/view.svg"} //
                     alt="View"

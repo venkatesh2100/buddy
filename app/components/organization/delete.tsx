@@ -19,11 +19,11 @@ export default function DeleteButtonOrg({ Organization ,refreshOrgs}: Organizati
 
   const handleDelete = async () => {
     console.log('Deleting organization:', Organization);
-    // if (!confirm(`Delete organization "${Organization.name}"?`)) return;
+    if (!confirm(`Delete organization "${Organization.name}"?`)) return;
 
     try {
       setLoading(true);
-      const res = await fetch(`/api/organization/${Organization.id}`, {
+      const res = await fetch(`/api/organization/delete/${Organization.id}`, {
         method: "DELETE",
       });
 
