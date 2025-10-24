@@ -43,15 +43,16 @@ export default function OrganizationCard({ org }: OrganizationProps) {
     }
   };
   return (
-    <div className="flex border-bg-gray-50 shadow-md p-6 m-10 justify-between">
+    <div className="flex border-bg-gray-50 shadow-md p-6 m-6 justify-between">
       <div className="flex ">
         <img
-          src={org.avatarUrl}
+          src={org.avatarUrl ?? "/Avatar.svg"}
           alt={org.name}
           width={128}
           height={128}
           className="rounded"
         />
+
         <div className="flex flex-col ml-6 pt-4 gap-4">
           <div className="text-xl font-semibold">{org.name}</div>
           <div className="text-sm flex flex-col gap-4 text-gray-600 text-center ">
@@ -65,22 +66,22 @@ export default function OrganizationCard({ org }: OrganizationProps) {
               />
               <a>{org.mail}</a>
             </a>
-               <a className="flex ">
+            <a className="flex ">
               <Image
                 src={"/phone.svg"}
                 alt="Search"
                 width={20}
-                  className="mr-1"
+                className="mr-1"
                 height={20}
               />
               <a>{org.contact}</a>
             </a>
-                 <a className="flex ">
+            <a className="flex ">
               <Image
                 src={"/world.svg"}
                 alt="Search"
                 width={20}
-                  className="mr-1"
+                className="mr-1"
                 height={20}
               />
               <a>{org.website}</a>

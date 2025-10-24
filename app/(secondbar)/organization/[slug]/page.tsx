@@ -15,7 +15,10 @@ interface Organization {
   avatarUrl: string;
   mail: string;
   contact: string;
+  primaryAdmin?: string;
   website?: string;
+  supportEmail?: string;
+  alterNativePhoneNumber?: string;
 }
 
 export default function OrganizationPage() {
@@ -44,6 +47,9 @@ export default function OrganizationPage() {
             avatarUrl: result.data.avatarUrl ?? null,
             website: result.data.basicDetails?.websiteUrl ?? null,
             pendingRequests: result.data.users?.length ?? 0,
+            primaryAdmin: result.data.basicDetails.primaryAdminName ?? "Venky",
+            supportEmail: result.data.basicDetails.supportEmail ?? "support@com",
+            alterNativePhoneNumber: result.data.basicDetails.alternativePhoneNumber ?? "1234567890",
           };
           setData(org);
         }
@@ -62,11 +68,14 @@ export default function OrganizationPage() {
   if (!data) return <div>Organization not found.</div>;
 
   return (
-    <div>
+    <div className="mx-10">
       <OrganizationCard org={data} />
       <OrgBar activeTab={activeTab} onTabChange={setActiveTab} />
+      <div className=" px-4 ">
       {activeTab === "basic" && <BasicDetails org={data} />}
       {activeTab === "users" && <OrganizationUsers org={data} />}
+      </div>
+
     </div>
   );
 }
