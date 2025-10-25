@@ -1,7 +1,9 @@
-import { config } from "dotenv";
-config();
-
 import { defineConfig, env } from "prisma/config";
+if (process.env.NODE_ENV !== "production") {
+  // Load .env locally only
+  await import("dotenv").then(({ config }) => config());
+}
+
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
