@@ -1,0 +1,15 @@
+{
+  "build": {
+    "env": {
+      "PRISMA_GENERATE_SKIP_AUTOINSTALL": "true"
+    }
+  },
+  "functions": {
+    "api/**/*.js": {
+      "includeFiles": "node_modules/.prisma/client/**"
+    },
+    "api/**/*.ts": {
+      "includeFiles": "node_modules/.prisma/client/**"
+    }
+  }
+}
