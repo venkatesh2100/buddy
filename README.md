@@ -2,7 +2,7 @@
 
 A Next.js project using Prisma and PostgreSQL.
 # Demo
-[![Watch the video](https://github.com/user-attachments/assets/12fd69c4-c6e7-41de-80c0-98720894350f)](https://github.com/user-attachments/assets/19246052-1ecb-4f16-99c3-9902cdbe0f3e)
+<https://github.com/user-attachments/assets/19246052-1ecb-4f16-99c3-9902cdbe0f3e>
 
 ## Setup
 
