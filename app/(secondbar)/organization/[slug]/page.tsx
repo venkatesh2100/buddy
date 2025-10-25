@@ -61,11 +61,14 @@ export default function OrganizationPage() {
             website: result.data.basicDetails?.websiteUrl ?? null,
             primaryAdmin: result.data.basicDetails?.primaryAdminName ?? null,
             supportEmail: result.data.basicDetails?.supportEmail ?? null,
-            alterNativePhoneNumber: result.data.basicDetails?.alternativePhoneNumber ?? null,
-            languagePreference: result.data.basicDetails?.languagePreference ?? null,
+            alterNativePhoneNumber:
+              result.data.basicDetails?.alternativePhoneNumber ?? null,
+            languagePreference:
+              result.data.basicDetails?.languagePreference ?? null,
             timeCommonName: result.data.basicDetails?.timeCommonName ?? null,
             region: result.data.basicDetails?.region ?? null,
-            maxActiveCoordinators: result.data.basicDetails?.maxActiveCoordinators ?? 0,
+            maxActiveCoordinators:
+              result.data.basicDetails?.maxActiveCoordinators ?? 0,
           };
 
           setData(org);
@@ -74,7 +77,9 @@ export default function OrganizationPage() {
         }
       } catch (error) {
         console.error("Error fetching organization:", error);
-        setError(error instanceof Error ? error.message : "Failed to load organization");
+        setError(
+          error instanceof Error ? error.message : "Failed to load organization"
+        );
       } finally {
         setLoading(false);
       }
@@ -84,16 +89,23 @@ export default function OrganizationPage() {
   }, [slug]);
 
   if (loading) return <div className="mx-10 p-4">Loading organization...</div>;
-  if (error) return <div className="mx-10 p-4 text-red-500">Error: {error}</div>;
+  if (error)
+    return <div className="mx-10 p-4 text-red-500">Error: {error}</div>;
   if (!data) return <div className="mx-10 p-4">Organization not found.</div>;
 
   return (
     <div className="mx-10">
       <OrganizationCard org={data} />
-      <OrgBar activeTab={activeTab} onTabChange={setActiveTab} />
+      <OrgBar
+        activeTab={activeTab}
+        onTabChange={(tab) => setActiveTab(tab as "basic" | "users")}
+      />
+
       <div className="px-4">
         {activeTab === "basic" && <BasicDetails org={data} />}
-        {activeTab === "users" && data?.slug && <OrganizationUsers org={data.slug} />}
+        {activeTab === "users" && data?.slug && (
+          <OrganizationUsers org={data.slug} />
+        )}
       </div>
     </div>
   );
