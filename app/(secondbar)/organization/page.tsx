@@ -59,7 +59,7 @@ export default function B2BOrganizations() {
     fetchOrganizations();
   }, []);
 
-  if (loading) return <div className="m-10 text-gray-500">Loading...</div>;
+  if (loading) return <div className="m-10 text-gray-500 flex items-center justify-center">Loading...</div>;
 
   const getStatusColor = (status: string) => {
     switch (status) {
