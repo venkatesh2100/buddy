@@ -2,8 +2,7 @@
 
 A Next.js project using Prisma and PostgreSQL.
 # Demo
-# Demo
-[![Watch the video](./public/mp4.png)](./public/buddy.mp4)
+[![Watch the video](./public/mp4.png)](https://github.com/user-attachments/assets/19246052-1ecb-4f16-99c3-9902cdbe0f3e)
 
 ## Setup
 
