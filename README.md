@@ -2,10 +2,8 @@
 
 A Next.js project using Prisma and PostgreSQL.
 # Demo
-<video width="600" controls>
-  <source src="/buddy.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+# Demo
+[![Watch the video](./public/mp4.png)](./public/buddy.mp4)
 
 ## Setup
 
