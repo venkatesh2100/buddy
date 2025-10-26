@@ -5,6 +5,12 @@
     }
   },
   "functions": {
+    "api/**/*.js": {
+      "includeFiles": "node_modules/.prisma/client/**"
+    },
+    "api/**/*.ts": {
+      "includeFiles": "node_modules/.prisma/client/**"
+    },
     "app/api/**/*.js": {
       "includeFiles": "node_modules/.prisma/client/**"
     },
@@ -12,9 +18,6 @@
       "includeFiles": "node_modules/.prisma/client/**"
     },
     "app/api/**/*.tsx": {
-      "includeFiles": "node_modules/.prisma/client/**"
-    },
-    "app/api/**/*.jsx": {
       "includeFiles": "node_modules/.prisma/client/**"
     }
   }

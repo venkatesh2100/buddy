@@ -10,6 +10,9 @@
     "lint": "eslint"
   },
   "prisma": {
+    "client": {
+      "engineType": "binary"
+    },
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
