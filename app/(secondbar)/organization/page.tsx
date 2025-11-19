@@ -26,7 +26,7 @@ export default function B2BOrganizations() {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.ta12rget.value });
   };
   const handleClick = async () => {
     // console.log("Form Data Submitted: ", formData);
